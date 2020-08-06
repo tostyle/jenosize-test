@@ -4,6 +4,8 @@ import qs from "query-string";
 const GOOGLE_PLACE_API = "https://maps.googleapis.com/maps/api/place";
 const TOKEN = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
+const API = process.env.REACT_APP_API;
+console.log(process.env);
 export const searchPlace = (searchQuery) => {
   return axios({
     method: "GET",
@@ -11,6 +13,16 @@ export const searchPlace = (searchQuery) => {
     params: {
       query: searchQuery,
       key: TOKEN,
+    },
+  });
+};
+
+export const searchGooglePlace = (searchQuery) => {
+  return axios({
+    method: "GET",
+    url: `${API}/searchGooglePlace`,
+    params: {
+      searchQuery,
     },
   });
 };
