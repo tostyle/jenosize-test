@@ -5,7 +5,6 @@ const GOOGLE_PLACE_API = "https://maps.googleapis.com/maps/api/place";
 const TOKEN = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
 const API = process.env.REACT_APP_API;
-console.log(process.env);
 export const searchPlace = (searchQuery) => {
   return axios({
     method: "GET",

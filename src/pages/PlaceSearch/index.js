@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Card } from "react-bootstrap";
+import debounce from "lodash/debounce";
 import Body from "components/Body";
-import { usePlaceSearchContext } from "./placeSearchModule";
+import Loading from "components/Loading";
 import * as api from "helpers/api";
+import { usePlaceSearchContext } from "./placeSearchModule";
 
 function PlaceSearch() {
+  const [loading, setLoading] = useState(false);
   const [placeList, setPlaceList] = useState([]);
   const { placeSearch } = usePlaceSearchContext();
-  useEffect(() => {
-    const loadPlace = async () => {
+  const debounceSearchPlace = useCallback(
+    debounce(async (search) => {
       try {
-        const { data } = await api.searchGooglePlace(placeSearch);
+        setLoading(true);
+        const { data } = await api.searchGooglePlace(search);
         setPlaceList(data);
       } catch (error) {
         console.error(error);
         alert(error.message);
+      } finally {
+        setLoading(false);
       }
-    };
-    if (!placeSearch || placeSearch.length <= 3) {
-      return;
-    }
-    setTimeout(function () {
-      loadPlace();
-    }, 1000);
-  }, [placeSearch]);
+    }, 1000),
+    [setPlaceList]
+  );
+  useEffect(() => {
+    debounceSearchPlace(placeSearch);
+  }, [debounceSearchPlace, placeSearch]);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <Body>
       {placeList.map((place) => {
-        // const [photo] = place.photos;
-        // const photoUrl = photo
-        //   ? api.getPlacePhoto(photo.photo_reference)
-        //   : null;
         return (
           <Card
             key={place.id}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Jumbotron } from "react-bootstrap";
 import range from "lodash/range";
 import Body from "components/Body";
 
@@ -29,6 +29,16 @@ function Home() {
   const numberResult = calculateNumber(Number(startNumber), Number(count));
   return (
     <Body>
+      <Jumbotron>
+        Project Repository:{" "}
+        <a
+          href="https://github.com/tostyle/jenosize-test"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://github.com/tostyle/jenosize-test
+        </a>
+      </Jumbotron>
       <Form>
         <Form.Group controlId="startNumber">
           <Form.Label>Start Number</Form.Label>
